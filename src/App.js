@@ -1,23 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
+import SwatchList from './SwatchList';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [currentColor, setCurrentColor] = useState('#000000')
+  const [colorOne, setColorOne] = useState('#000000')
+  const [colorTwo, setColorTwo] = useState('#000000')
+  const [colorThree, setColorThree] = useState('#000000')
+  const [selectedColor, setSelectedColor] = useState('')
+
+  const randomColor = () => {
+    const red = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+
+    const hexColor = `#${red.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}`
+    return hexColor
+  }
+
+
+  useEffect(() => {
+    const generatedColorOne = randomColor()
+    const generatedColorTwo = randomColor()
+    const generatedColorThree = randomColor()
+
+    const swatchColors = [generatedColorOne, generatedColorTwo, generatedColorThree]
+    const correctAnswer = swatchColors[Math.floor(Math.random() * swatchColors.length)]
+
+    setColorOne(generatedColorOne)
+    setColorTwo(generatedColorTwo)
+    setColorThree(generatedColorThree)
+    setCurrentColor(correctAnswer)
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SwatchList selectedColor={selectedColor} colorOne={colorOne} colorTwo={colorTwo} colorThree={colorThree} randomColor={randomColor} setSelectedColor={setSelectedColor}/>
+      <p>Which color is: <strong>{currentColor}</strong></p>
+      {selectedColor && <p>Selected: {selectedColor}</p>}
+      {currentColor === selectedColor &&
+      <div>
+        <h2>Congrats! That was correct!</h2>
+        <button onClick={() => window.location.reload()}>Reset/Play Again</button>
+      </div>}
+      {currentColor !== selectedColor && selectedColor !== '' &&
+      <div>
+        <h2>Sorry! Try Again!</h2>
+        <button onClick={() => window.location.reload()}>Reset/Play Again</button>
+      </div>}
     </div>
   );
 }
