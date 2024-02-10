@@ -5,7 +5,7 @@ function Swatch({ disabled, currentColor, setSelectedColor}) {
     <div
       className='swatch-container'
       style={
-        !disabled
+        disabled
           ? { pointerEvents: "none", backgroundColor: "#000000" }
           : { backgroundColor: currentColor }
       }
