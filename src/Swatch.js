@@ -1,8 +1,16 @@
 import './Swatch.css';
 
-function Swatch({ selectedColor, currentColor, setSelectedColor}) {
+function Swatch({ disabled, currentColor, setSelectedColor}) {
   return (
-    <div className='swatch-container' style={{ backgroundColor: currentColor}} onClick={() => setSelectedColor(currentColor)}>
+    <div
+      className='swatch-container'
+      style={
+        !disabled
+          ? { pointerEvents: "none", backgroundColor: "#000000" }
+          : { backgroundColor: currentColor }
+      }
+      onClick={() => setSelectedColor(currentColor)}
+    >
     </div>
   );
 }

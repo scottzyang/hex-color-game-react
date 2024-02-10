@@ -1,7 +1,7 @@
 import './App.css';
 import SwatchList from './SwatchList';
 import Stopwatch from './Stopwatch';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function App() {
   const [currentColor, setCurrentColor] = useState('#000000')
@@ -10,6 +10,7 @@ function App() {
   const [colorThree, setColorThree] = useState('#000000')
   const [selectedColor, setSelectedColor] = useState('')
   const [gameStart, setGameStart] = useState(false)
+  const [disabled, setDisabled] = useState(false)
 
   const randomColor = () => {
     const red = Math.floor(Math.random() * 256);
@@ -30,6 +31,7 @@ function App() {
     const swatchColors = [generatedColorOne, generatedColorTwo, generatedColorThree]
     const correctAnswer = swatchColors[Math.floor(Math.random() * swatchColors.length)]
 
+    setDisabled(true)
     setColorOne(generatedColorOne)
     setColorTwo(generatedColorTwo)
     setColorThree(generatedColorThree)
@@ -39,8 +41,8 @@ function App() {
   return (
     <div className="App">
       <Stopwatch />
-      <SwatchList selectedColor={selectedColor} colorOne={colorOne} colorTwo={colorTwo} colorThree={colorThree} randomColor={randomColor} setSelectedColor={setSelectedColor}/>
-      <p>Which color is: <strong>{currentColor}</strong></p>
+      <SwatchList disabled={disabled} selectedColor={selectedColor} colorOne={colorOne} colorTwo={colorTwo} colorThree={colorThree} randomColor={randomColor} setSelectedColor={setSelectedColor}/>
+      {gameStart && <p>Which color is: <strong>{currentColor}</strong></p>}
       {!gameStart && <button onClick={() => startGame()}>Click Here to Start!</button>}
       {selectedColor && <p>Selected: {selectedColor}</p>}
       {currentColor === selectedColor &&
